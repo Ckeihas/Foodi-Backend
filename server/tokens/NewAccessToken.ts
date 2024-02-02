@@ -10,9 +10,6 @@ interface AccessTokenPayload {
     exp: number;
 }
 
-const getUserData = async () => {
-    
-}
 
 router.post("/new-access", (req: express.Request, res: express.Response) => {
     const privateKey = process.env.ACCESS_TOKEN_PRIVATE_KEY;
@@ -37,5 +34,6 @@ router.post("/new-access", (req: express.Request, res: express.Response) => {
         .catch((err) => res.status(400).json(err));
     }
 });
+
 
 module.exports = router;

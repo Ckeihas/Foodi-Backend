@@ -20,6 +20,7 @@ const verifyAccessToken = (req: Request, res: Response, next: NextFunction): voi
     const bearerToken: string | undefined = req.header('Authorization');
     const token = bearerToken?.split("Bearer ")[1];
 
+    console.log("Token: ", bearerToken)
     if (privateKey && token) {
         jwt.verify(token, privateKey, (err, tokenDetails) => {
             if (err) {
