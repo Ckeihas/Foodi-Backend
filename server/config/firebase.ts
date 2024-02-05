@@ -24,9 +24,7 @@ const serviceAccount = require('../../firebase.json');
 
 initializeApp({
     credential: cert(serviceAccount),
-    storageBucket: 'gs://foodi-app-8e777.appspot.com'
 });
 
 const db = getFirestore();
-const storage = getStorage();
-module.exports = { db, storage };
+module.exports = { db };

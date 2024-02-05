@@ -80,7 +80,6 @@ router.post("/email", async (req: express.Request, res: express.Response) => {
         } else {
             console.log("Käyttäjä on jo")
         }
-        console.log("Koodaaminen on paskaa: ", email, password, username)
 
         // User.find({email}).then(result => {
         //     //A user already exists
