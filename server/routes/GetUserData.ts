@@ -19,8 +19,10 @@ interface IUserPosts {
     description: string;
     extendedIngredients: { id: string, name: string; amount: string; unit: string }[];
     analyzedInstructions: {id: string, text: string, number: number}[];
-    id: string;
-    username: string
+    userId: string;
+    itemId: string;
+    username: string;
+    likes: string[];
 }
 router.post("/profile", verifyAccessToken, async (req: express.Request, res: express.Response) => {
     const loggedInUser: string | undefined = req.userId;
@@ -44,17 +46,19 @@ router.post("/profile", verifyAccessToken, async (req: express.Request, res: exp
         const GetAllFriendsData = doc.data().friends.map(async (friend: any) => {
             //console.log("Testi: ", friend.id)
             const postsRef = db.collection('posts')
-            await postsRef.where('id', '==', friend.id).get().then((querySnapshot: any) => {
+            await postsRef.where('userId', '==', friend.id).get().then((querySnapshot: any) => {
                 querySnapshot.forEach((doc: any) => {
-                    //console.log("Result: ", doc.data())
+                    console.log("Result: ", doc.id)
                     usersPosts.push({
                         imageURL: doc.data().imageURL,
                         analyzedInstructions: doc.data().analyzedInstructions,
                         description: doc.data().description,
                         extendedIngredients: doc.data().extendedIngredients,
-                        id: doc.data().id,
+                        userId: doc.data().userId,
+                        itemId: doc.data().itemId,
                         title: doc.data().title,
-                        username: doc.data().username
+                        username: doc.data().username,
+                        likes: doc.data().likes
                     })
                 });
             })
