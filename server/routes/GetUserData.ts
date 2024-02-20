@@ -48,7 +48,7 @@ router.post("/profile", verifyAccessToken, async (req: express.Request, res: exp
             const postsRef = db.collection('posts')
             await postsRef.where('userId', '==', friend.id).get().then((querySnapshot: any) => {
                 querySnapshot.forEach((doc: any) => {
-                    console.log("Result: ", doc.id)
+                    //console.log("Result: ", doc.id)
                     usersPosts.push({
                         imageURL: doc.data().imageURL,
                         analyzedInstructions: doc.data().analyzedInstructions,
@@ -72,7 +72,7 @@ router.post("/profile", verifyAccessToken, async (req: express.Request, res: exp
             })
         });
         await Promise.all(GetAllFriendsData);
-        console.log("koko lista: ", usersPosts)
+        //console.log("koko lista: ", usersPosts)
         res.json({
             error: false,
             username: doc.data().username,

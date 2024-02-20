@@ -18,7 +18,7 @@ router.post("/new-access", (req: express.Request, res: express.Response) => {
     verifyRefreshToken(req.body.refreshToken)
         .then((resp: any) => {
             const { tokenDetails } = resp as { tokenDetails: AccessTokenPayload };
-            console.log("ID: ",tokenDetails._id)
+            //console.log("ID: ",tokenDetails._id)
             const payload = { _id: tokenDetails._id};
             const accessToken = jwt.sign(
                 payload,

@@ -20,18 +20,18 @@ const verifyAccessToken = (req: Request, res: Response, next: NextFunction): voi
     const bearerToken: string | undefined = req.header('Authorization');
     const token = bearerToken?.split("Bearer ")[1];
 
-    console.log("Token: ", bearerToken)
+    //console.log("Token: ", bearerToken)
     if (privateKey && token) {
         jwt.verify(token, privateKey, (err, tokenDetails) => {
             if (err) {
-                console.log("Invalid token");
+                //console.log("Invalid token");
                 // You can handle the error here if needed
                 res.json({ 
                     message: 'Invalid token verify access token',
                     error: true 
                 });
             } else if(tokenDetails) {
-                console.log("Valid token: ", tokenDetails);
+                //console.log("Valid token: ", tokenDetails);
                 // Token is valid; continue to the next middleware or route handler
                 const userId = (tokenDetails as AccessTokenPayload)._id;
                 req.userId = userId;
