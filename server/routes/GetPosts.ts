@@ -34,28 +34,29 @@ router.post('/posts', verifyAccessToken, async (req: express.Request, res: expre
         if(getLastVisibleItem == undefined){
             const getPosts = await userDoc.data().friends.map(async (friendId: DocumentReference) => {
                 const postsRef = db.collection('posts')
-                const findPosts = await postsRef.where('userId', '==', friendId.id).orderBy('timestamp').limit(2).get();
+                const findPosts = await postsRef.where('userId', '==', friendId.id).orderBy('timestamp').limit(10).get();
                 const getLastVisible = findPosts.docs[findPosts.docs.length - 1];
 
-                if (getLastVisible) {
+                if (!findPosts.empty) {
                     lastVisible = getLastVisible.ref.path;
+
+                    findPosts.forEach((doc: QuerySnapshot) => { 
+                        usersPosts.push({
+                            imageURL: doc.data().imageURL,
+                            analyzedInstructions: doc.data().analyzedInstructions,
+                            description: doc.data().description,
+                            extendedIngredients: doc.data().extendedIngredients,
+                            userId: doc.data().userId,
+                            itemId: doc.data().itemId,
+                            title: doc.data().title,
+                            username: doc.data().username,
+                            likes: doc.data().likes
+                        })
+                    });
                 } else {
                     console.log("No documents found.");
                 }
-                findPosts.forEach((doc: QuerySnapshot) => {
-                    
-                    usersPosts.push({
-                        imageURL: doc.data().imageURL,
-                        analyzedInstructions: doc.data().analyzedInstructions,
-                        description: doc.data().description,
-                        extendedIngredients: doc.data().extendedIngredients,
-                        userId: doc.data().userId,
-                        itemId: doc.data().itemId,
-                        title: doc.data().title,
-                        username: doc.data().username,
-                        likes: doc.data().likes
-                    })
-                });
+                
             })
             await Promise.all(getPosts).then(() => {
                 console.log("last visible: ", lastVisible)

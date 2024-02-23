@@ -42,7 +42,7 @@ router.post('/posts/next-page', verifyAccessToken, async (req: express.Request, 
             .where('userId', '==', friendId.id)
             .orderBy('timestamp')
             .startAfter(getDoc)
-            .limit(2)
+            .limit(7)
             .get();
 
             if(!findPosts.empty){
